@@ -2,6 +2,8 @@ import sys
 
 import pygame
 
+from alien_invasion.settings import Settings
+
 
 class AlienInvasion:
     """管理游戏资源和行为的类"""
@@ -10,6 +12,7 @@ class AlienInvasion:
         """初始化游戏并创建游戏资源"""
         pygame.init()
         self.clock = pygame.time.Clock()
+        self.settings = Settings()
 
         self.screen = pygame.display.set_mode((1200, 800))
         pygame.display.set_caption("外星人入侵")
