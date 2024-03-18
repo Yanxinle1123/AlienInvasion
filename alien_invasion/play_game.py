@@ -1,6 +1,7 @@
 import sys
 
 import pygame
+from LeleEasyTkinter.easy_warning_windows import EasyWarningWindows
 
 from alien_invasion.bullet import Bullet
 from alien_invasion.settings import Settings
@@ -75,5 +76,8 @@ class AlienInvasion:
 
 
 if __name__ == '__main__':
+    window = EasyWarningWindows("信息",
+                                "欢迎游玩《外星人入侵》游戏,\n按 q 键退出,\n按空格发射子弹,\n按左右方向键控制飞船移动")
+    window.show_warning()
     ai = AlienInvasion()
     ai.run_game()
