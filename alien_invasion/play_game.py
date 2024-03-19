@@ -3,6 +3,7 @@ import sys
 import pygame
 from LeleEasyTkinter.easy_warning_windows import EasyWarningWindows
 
+from alien import Alien
 from alien_invasion.bullet import Bullet
 from alien_invasion.settings import Settings
 from ship import Ship
@@ -22,6 +23,9 @@ class AlienInvasion:
 
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
+        self.aliens = pygame.sprite.Group()
+
+        self._create_fleet()
 
     def run_game(self):
         """开始游戏的主循环"""
@@ -78,12 +82,19 @@ class AlienInvasion:
             new_bullet = Bullet(self)
             self.bullets.add(new_bullet)
 
+    def _create_fleet(self):
+        """创建一个外星人舰队"""
+        # 创建一个外星人
+        alien = Alien(self)
+        self.aliens.add(alien)
+
     def _update_screen(self):
         """更新屏幕上的图像, 并切换到新屏幕"""
         self.screen.fill(self.settings.bg_color)
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
         self.ship.blitme()
+        self.aliens.draw(self.screen)
 
         pygame.display.flip()
 
