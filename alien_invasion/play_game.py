@@ -48,6 +48,13 @@ class AlienInvasion:
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
 
+        # 检查是否有子弹打中外星人, 如果打中了, 就删除相应的子弹和外星人
+        collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
+
+        if not self.aliens:
+            self.bullets.empty()
+            self._create_fleet()
+
     def _check_events(self):
         """响应按键和鼠标事件"""
         for event in pygame.event.get():
