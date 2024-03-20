@@ -12,13 +12,22 @@ from ship import Ship
 class AlienInvasion:
     """管理游戏资源和行为的类"""
 
-    def __init__(self):
+    def __init__(self, options=pygame.FULLSCREEN):
         """初始化游戏并创建游戏资源"""
         pygame.init()
         self.clock = pygame.time.Clock()
-        self.settings = Settings()
+        self.options = options
 
-        self.screen = pygame.display.set_mode(flags=pygame.FULLSCREEN)
+        if self.options == pygame.FULLSCREEN:
+            self.screen = pygame.display.set_mode(flags=self.options)
+            self.fleet_drop_speed = 100
+            self.alien_speed = 5
+        else:
+            self.screen = pygame.display.set_mode((1200, 800))
+            self.fleet_drop_speed = 20
+            self.alien_speed = 3.5
+
+        self.settings = Settings(self.fleet_drop_speed, self.alien_speed)
         pygame.display.set_caption("外星人入侵")
 
         self.ship = Ship(self)
@@ -133,6 +142,10 @@ class AlienInvasion:
         self._check_fleet_edges()
         self.aliens.update()
 
+        # 检测外星人和飞船的碰撞
+        if pygame.sprite.spritecollideany(self.ship, self.aliens):
+            print("碰撞")
+
     def _update_screen(self):
         """更新屏幕上的图像, 并切换到新屏幕"""
         self.screen.fill(self.settings.bg_color)
@@ -146,7 +159,13 @@ class AlienInvasion:
 
 if __name__ == '__main__':
     window = EasyWarningWindows("信息",
-                                "欢迎游玩《外星人入侵》游戏,\n按 q 键退出,\n按空格发射子弹,\n按左右方向键控制飞船移动")
-    window.show_warning()
-    ai = AlienInvasion()
+                                "欢迎游玩《外星人入侵》游戏,\n按 q 键退出,\n按空格发射子弹,\n按左右方向键控制飞船移动").show_warning()
+    ask_window = EasyWarningWindows("是/否", "是否在全屏下运行游戏(全屏模式下, 只能按 q 键退出)")
+    answer = ask_window.show_warning()
+
+    if answer:
+        ai = AlienInvasion()
+    else:
+        ai = AlienInvasion(answer)
+
     ai.run_game()
