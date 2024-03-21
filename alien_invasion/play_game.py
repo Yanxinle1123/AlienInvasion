@@ -1,4 +1,5 @@
 import sys
+from time import sleep
 
 import pygame
 from LeleEasyTkinter.easy_warning_windows import EasyWarningWindows
@@ -6,6 +7,7 @@ from LeleEasyTkinter.easy_warning_windows import EasyWarningWindows
 from alien import Alien
 from alien_invasion.bullet import Bullet
 from alien_invasion.settings import Settings
+from game_stats import GameStats
 from ship import Ship
 
 
@@ -30,6 +32,7 @@ class AlienInvasion:
         self.settings = Settings(self.fleet_drop_speed, self.alien_speed)
         pygame.display.set_caption("外星人入侵")
 
+        self.stats = GameStats(self)
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
@@ -45,6 +48,21 @@ class AlienInvasion:
             self._update_aliens()
             self._update_screen()
             self.clock.tick(60)
+
+    def _ship_hit(self):
+        """响应飞船和外星人的碰撞"""
+        # 将 ships_left 减 1
+        self.stats.ships_left -= 1
+
+        # 清空余下的子弹和外星人
+        self.bullets.empty()
+        self.aliens.empty()
+
+        # 创建一群新的外星人, 将飞船放在中间
+        self._create_fleet()
+        self.ship.center_ship()
+
+        sleep(0.5)
 
     def _update_bullets(self):
         """更新子弹的位置并删除消失的子弹"""
@@ -99,6 +117,13 @@ class AlienInvasion:
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
 
+    def _check_aliens_bottom(self):
+        """检查是否有外星人到达屏幕底端"""
+        for alien in self.aliens.sprites():
+            if alien.rect.bottom >= self.settings.screen_height:
+                self._ship_hit()
+                break
+
     def _check_keyup_events(self, event):
         """响应释放"""
         if event.key == pygame.K_RIGHT:
@@ -144,7 +169,9 @@ class AlienInvasion:
 
         # 检测外星人和飞船的碰撞
         if pygame.sprite.spritecollideany(self.ship, self.aliens):
-            print("碰撞")
+            self._ship_hit()
+
+        self._check_aliens_bottom()
 
     def _update_screen(self):
         """更新屏幕上的图像, 并切换到新屏幕"""
