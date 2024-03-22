@@ -22,7 +22,7 @@ class AlienInvasion:
 
         if self.options == pygame.FULLSCREEN:
             self.screen = pygame.display.set_mode(flags=self.options)
-            self.fleet_drop_speed = 100
+            self.fleet_drop_speed = 40
             self.alien_speed = 5
         else:
             self.screen = pygame.display.set_mode((1200, 800))
@@ -176,9 +176,15 @@ class AlienInvasion:
 
     def _update_screen(self):
         """更新屏幕上的图像, 并切换到新屏幕"""
-        pygame.draw.line(self.screen, (255, 0, 0), (0, self.settings.screen_height - 800),
-                         (self.settings.screen_width, self.settings.screen_height - 800))
         self.screen.fill(self.settings.bg_color)
+
+        # 在高度800处绘制红线
+        red_line_color = (255, 0, 0)
+        line_width = 5  # 设置线的粗细
+        start_pos = (0, 800)  # 设置线的起点坐标（x 坐标为 100）
+        end_pos = (2000, 800)  # 设置线的终点坐标（x 坐标为屏幕宽度减 100）
+        pygame.draw.line(self.screen, red_line_color, start_pos, end_pos, line_width)
+
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
         self.ship.blitme()
@@ -195,8 +201,10 @@ if __name__ == '__main__':
     answer = ask_window.show_warning()
 
     if answer:
+        EasyWarningWindows("信息", "在全屏模式下, 外星人碰到红线就会重新开始").show_warning()
         ai = AlienInvasion()
     else:
+        EasyWarningWindows("信息", "在非全屏模式下, 外星人碰到飞船或移出底边就会重新开始").show_warning()
         ai = AlienInvasion(answer)
 
     ai.run_game()
