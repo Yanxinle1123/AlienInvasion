@@ -178,11 +178,11 @@ class AlienInvasion:
         """更新屏幕上的图像, 并切换到新屏幕"""
         self.screen.fill(self.settings.bg_color)
 
-        # 在高度800处绘制红线
+        # 绘制红线
         red_line_color = (255, 0, 0)
         line_width = 5  # 设置线的粗细
-        start_pos = (0, 800)  # 设置线的起点坐标（x 坐标为 100）
-        end_pos = (2000, 800)  # 设置线的终点坐标（x 坐标为屏幕宽度减 100）
+        start_pos = (0, 820)  # 设置线的起点坐标
+        end_pos = (2000, 820)  # 设置线的终点坐标
         pygame.draw.line(self.screen, red_line_color, start_pos, end_pos, line_width)
 
         for bullet in self.bullets.sprites():
@@ -196,7 +196,7 @@ class AlienInvasion:
 if __name__ == '__main__':
 
     window = EasyWarningWindows("信息",
-                                "欢迎游玩《外星人入侵》游戏,\n按 q 键退出,\n按空格发射子弹,\n按左右方向键控制飞船移动").show_warning()
+                                "欢迎游玩《外星人入侵》游戏, 按 q 键退出, 按空格发射子弹, 按左右方向键控制飞船移动").show_warning()
     ask_window = EasyWarningWindows("是/否", "是否在全屏下运行游戏(全屏模式下, 只能按 q 键退出)")
     answer = ask_window.show_warning()
 
