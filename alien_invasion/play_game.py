@@ -41,6 +41,7 @@ class AlienInvasion:
 
     def run_game(self):
         """开始游戏的主循环"""
+
         while True:
             self._check_events()
             self.ship.update()
@@ -175,6 +176,8 @@ class AlienInvasion:
 
     def _update_screen(self):
         """更新屏幕上的图像, 并切换到新屏幕"""
+        pygame.draw.line(self.screen, (255, 0, 0), (0, self.settings.screen_height - 800),
+                         (self.settings.screen_width, self.settings.screen_height - 800))
         self.screen.fill(self.settings.bg_color)
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
@@ -185,6 +188,7 @@ class AlienInvasion:
 
 
 if __name__ == '__main__':
+
     window = EasyWarningWindows("信息",
                                 "欢迎游玩《外星人入侵》游戏,\n按 q 键退出,\n按空格发射子弹,\n按左右方向键控制飞船移动").show_warning()
     ask_window = EasyWarningWindows("是/否", "是否在全屏下运行游戏(全屏模式下, 只能按 q 键退出)")
