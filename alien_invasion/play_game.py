@@ -122,6 +122,8 @@ class AlienInvasion:
         """检查是否有外星人到达屏幕底端"""
         for alien in self.aliens.sprites():
             if alien.rect.bottom >= self.settings.screen_height:
+                if self.options != pygame.FULLSCREEN:
+                    EasyWarningWindows("信息", "外星人碰到底边了, 新的外星人舰队会自动出现").show_warning()
                 self._ship_hit()
                 break
 
@@ -170,6 +172,7 @@ class AlienInvasion:
 
         # 检测外星人和飞船的碰撞
         if pygame.sprite.spritecollideany(self.ship, self.aliens):
+            EasyWarningWindows("信息", "外星人碰到飞船了, 新的外星人舰队会自动出现").show_warning()
             self._ship_hit()
 
         self._check_aliens_bottom()
