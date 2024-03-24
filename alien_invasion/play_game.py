@@ -7,6 +7,7 @@ from LeleEasyTkinter.easy_warning_windows import EasyWarningWindows
 from alien import Alien
 from alien_invasion.bullet import Bullet
 from alien_invasion.settings import Settings
+from button import Button
 from game_stats import GameStats
 from ship import Ship
 
@@ -39,31 +40,43 @@ class AlienInvasion:
 
         self._create_fleet()
 
+        # 让游戏在一开始处于非活动状态
+        self.game_active = False
+
+        # 创建 Play 按钮
+        self.play_button = Button(self, "Play")
+
     def run_game(self):
         """开始游戏的主循环"""
 
         while True:
             self._check_events()
-            self.ship.update()
-            self._update_bullets()
-            self._update_aliens()
+
+            if self.game_active:
+                self.ship.update()
+                self._update_bullets()
+                self._update_aliens()
+
             self._update_screen()
             self.clock.tick(60)
 
     def _ship_hit(self):
         """响应飞船和外星人的碰撞"""
-        # 将 ships_left 减 1
-        self.stats.ships_left -= 1
+        if self.stats.ships_left > 0:
+            # 将 ships_left 减 1
+            self.stats.ships_left -= 1
 
-        # 清空余下的子弹和外星人
-        self.bullets.empty()
-        self.aliens.empty()
+            # 清空余下的子弹和外星人
+            self.bullets.empty()
+            self.aliens.empty()
 
-        # 创建一群新的外星人, 将飞船放在中间
-        self._create_fleet()
-        self.ship.center_ship()
+            # 创建一群新的外星人, 将飞船放在中间
+            self._create_fleet()
+            self.ship.center_ship()
 
-        sleep(0.5)
+            sleep(0.5)
+        else:
+            self.game_active = False
 
     def _update_bullets(self):
         """更新子弹的位置并删除消失的子弹"""
@@ -123,7 +136,7 @@ class AlienInvasion:
         for alien in self.aliens.sprites():
             if alien.rect.bottom >= self.settings.screen_height:
                 if self.options != pygame.FULLSCREEN:
-                    EasyWarningWindows("信息", "外星人碰到底边了, 新的外星人舰队会自动出现").show_warning()
+                    EasyWarningWindows("信息", "外星人碰到底边了").show_warning()
                 self._ship_hit()
                 break
 
@@ -172,13 +185,14 @@ class AlienInvasion:
 
         # 检测外星人和飞船的碰撞
         if pygame.sprite.spritecollideany(self.ship, self.aliens):
-            EasyWarningWindows("信息", "外星人碰到飞船了, 新的外星人舰队会自动出现").show_warning()
+            EasyWarningWindows("信息", "外星人碰到飞船了").show_warning()
             self._ship_hit()
 
         self._check_aliens_bottom()
 
     def _update_screen(self):
         """更新屏幕上的图像, 并切换到新屏幕"""
+
         self.screen.fill(self.settings.bg_color)
 
         # 绘制红线
@@ -193,6 +207,10 @@ class AlienInvasion:
         self.ship.blitme()
         self.aliens.draw(self.screen)
 
+        # 如果游戏处于活动状态, 就绘制外星人
+        if not self.game_active:
+            self.play_button.draw_button()
+
         pygame.display.flip()
 
 
@@ -205,9 +223,11 @@ if __name__ == '__main__':
 
     if answer:
         EasyWarningWindows("信息", "在全屏模式下, 外星人碰到红线就会重新开始").show_warning()
+        EasyWarningWindows("信息", "按下 Play 按钮即可开始游戏").show_warning()
         ai = AlienInvasion()
     else:
         EasyWarningWindows("信息", "在非全屏模式下, 外星人碰到飞船或移出底边就会重新开始").show_warning()
+        EasyWarningWindows("信息", "按下 Play 按钮即可开始游戏").show_warning()
         ai = AlienInvasion(answer)
 
     ai.run_game()
