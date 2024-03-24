@@ -62,7 +62,9 @@ class AlienInvasion:
 
     def _ship_hit(self):
         """响应飞船和外星人的碰撞"""
-        if self.stats.ships_left > 0:
+
+        if self.stats.ships_left > 1:
+
             # 将 ships_left 减 1
             self.stats.ships_left -= 1
 
@@ -74,9 +76,10 @@ class AlienInvasion:
             self._create_fleet()
             self.ship.center_ship()
 
-            sleep(0.5)
+            sleep(1)
         else:
             self.game_active = False
+            pygame.mouse.set_visible(True)
 
     def _update_bullets(self):
         """更新子弹的位置并删除消失的子弹"""
@@ -93,6 +96,7 @@ class AlienInvasion:
 
     def _check_bullet_alien_collisions(self):
         # 检查是否有子弹打中外星人, 如果打中了, 就删除相应的子弹和外星人
+
         pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
 
         if not self.aliens:
@@ -101,6 +105,7 @@ class AlienInvasion:
 
     def _check_events(self):
         """响应按键和鼠标事件"""
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
@@ -108,6 +113,29 @@ class AlienInvasion:
                 self._check_keydown_events(event)
             elif event.type == pygame.KEYUP:
                 self._check_keyup_events(event)
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = pygame.mouse.get_pos()
+                self._check_play_button(mouse_pos)
+
+    def _check_play_button(self, mouse_pos):
+        """在玩家单击 Play 按钮后开始新游戏"""
+
+        button_clicked = self.play_button.rect.collidepoint(mouse_pos)
+        if button_clicked and not self.game_active:
+            # 重置游戏统计数据
+            self.game_active = True
+            self.stats.reset_stats()
+
+            # 清空余下的子弹和外星人
+            self.bullets.empty()
+            self.aliens.empty()
+
+            # 创建一群新的外星人, 将飞船放在中间
+            self._create_fleet()
+            self.ship.center_ship()
+
+            # 隐藏光标
+            pygame.mouse.set_visible(False)
 
     def _check_fleet_edges(self):
         for alien in self.aliens.sprites():
@@ -122,6 +150,7 @@ class AlienInvasion:
 
     def _check_keydown_events(self, event):
         """响应按下"""
+
         if event.key == pygame.K_RIGHT:
             self.ship.moving_right = True
         elif event.key == pygame.K_LEFT:
@@ -133,6 +162,7 @@ class AlienInvasion:
 
     def _check_aliens_bottom(self):
         """检查是否有外星人到达屏幕底端"""
+
         for alien in self.aliens.sprites():
             if alien.rect.bottom >= self.settings.screen_height:
                 if self.options != pygame.FULLSCREEN:
@@ -142,6 +172,7 @@ class AlienInvasion:
 
     def _check_keyup_events(self, event):
         """响应释放"""
+
         if event.key == pygame.K_RIGHT:
             self.ship.moving_right = False
         elif event.key == pygame.K_LEFT:
@@ -158,6 +189,7 @@ class AlienInvasion:
         """创建一个外星人舰队"""
         # 创建一个外星人, 然后不断增加, 直到没有空间添加外星人为止
         # 外星人的间距为外星人宽度和高度
+
         alien = Alien(self)
         alien_width, alien_height = alien.rect.size
 
@@ -185,7 +217,13 @@ class AlienInvasion:
 
         # 检测外星人和飞船的碰撞
         if pygame.sprite.spritecollideany(self.ship, self.aliens):
-            EasyWarningWindows("信息", "外星人碰到飞船了").show_warning()
+            ships_left = self.stats.ships_left - 1
+            if ships_left >= 1:
+                if ships_left == 1:
+                    ships_left = "最后一"
+                EasyWarningWindows("信息", f"外星人碰到飞船了, 你还有{ships_left}搜飞船").show_warning()
+            elif ships_left <= 0:
+                EasyWarningWindows("信息", "外星人碰到飞船了, 你没有飞船了, 游戏将重启").show_warning()
             self._ship_hit()
 
         self._check_aliens_bottom()
@@ -207,7 +245,6 @@ class AlienInvasion:
         self.ship.blitme()
         self.aliens.draw(self.screen)
 
-        # 如果游戏处于活动状态, 就绘制外星人
         if not self.game_active:
             self.play_button.draw_button()
 
@@ -223,10 +260,12 @@ if __name__ == '__main__':
 
     if answer:
         EasyWarningWindows("信息", "在全屏模式下, 外星人碰到红线就会重新开始").show_warning()
+        EasyWarningWindows("信息", "电脑鼠标在游戏窗口下会消失, 是正常情况, 不必担心").show_warning()
         EasyWarningWindows("信息", "按下 Play 按钮即可开始游戏").show_warning()
         ai = AlienInvasion()
     else:
         EasyWarningWindows("信息", "在非全屏模式下, 外星人碰到飞船或移出底边就会重新开始").show_warning()
+        EasyWarningWindows("信息", "电脑鼠标移动到游戏窗口下会消失, 是正常情况, 不必担心").show_warning()
         EasyWarningWindows("信息", "按下 Play 按钮即可开始游戏").show_warning()
         ai = AlienInvasion(answer)
 
