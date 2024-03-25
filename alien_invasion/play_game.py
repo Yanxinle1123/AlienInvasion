@@ -122,20 +122,25 @@ class AlienInvasion:
 
         button_clicked = self.play_button.rect.collidepoint(mouse_pos)
         if button_clicked and not self.game_active:
-            # 重置游戏统计数据
-            self.game_active = True
-            self.stats.reset_stats()
+            self._start_game()
 
-            # 清空余下的子弹和外星人
-            self.bullets.empty()
-            self.aliens.empty()
+    def _start_game(self):
+        """让游戏开始的类"""
 
-            # 创建一群新的外星人, 将飞船放在中间
-            self._create_fleet()
-            self.ship.center_ship()
+        # 重置游戏统计数据
+        self.game_active = True
+        self.stats.reset_stats()
 
-            # 隐藏光标
-            pygame.mouse.set_visible(False)
+        # 清空余下的子弹和外星人
+        self.bullets.empty()
+        self.aliens.empty()
+
+        # 创建一群新的外星人, 将飞船放在中间
+        self._create_fleet()
+        self.ship.center_ship()
+
+        # 隐藏光标
+        pygame.mouse.set_visible(False)
 
     def _check_fleet_edges(self):
         for alien in self.aliens.sprites():
@@ -157,6 +162,8 @@ class AlienInvasion:
             self.ship.moving_left = True
         elif event.key == pygame.K_q:
             sys.exit()
+        elif event.key == pygame.K_p:
+            self._start_game()
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
 
@@ -265,12 +272,12 @@ if __name__ == '__main__':
     if answer:
         EasyWarningWindows("信息", "在全屏模式下, 外星人碰到红线就会重新开始").show_warning()
         EasyWarningWindows("信息", "电脑鼠标在游戏窗口下会消失, 是正常情况, 不必担心").show_warning()
-        EasyWarningWindows("信息", "按下 Play 按钮即可开始游戏").show_warning()
+        EasyWarningWindows("信息", "按下 Play 按钮或 p 键即可开始游戏").show_warning()
         ai = AlienInvasion()
     else:
         EasyWarningWindows("信息", "在非全屏模式下, 外星人碰到飞船或移出底边就会重新开始").show_warning()
         EasyWarningWindows("信息", "电脑鼠标移动到游戏窗口下会消失, 是正常情况, 不必担心").show_warning()
-        EasyWarningWindows("信息", "按下 Play 按钮即可开始游戏").show_warning()
+        EasyWarningWindows("信息", "按下 Play 按钮或 p 键即可开始游戏").show_warning()
         ai = AlienInvasion(answer)
 
     ai.run_game()
