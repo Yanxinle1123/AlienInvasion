@@ -17,6 +17,7 @@ class AlienInvasion:
 
     def __init__(self, options=pygame.FULLSCREEN):
         """初始化游戏并创建游戏资源"""
+
         pygame.init()
         self.clock = pygame.time.Clock()
         self.options = options
@@ -102,6 +103,7 @@ class AlienInvasion:
         if not self.aliens:
             self.bullets.empty()
             self._create_fleet()
+            self.settings.increase_speed()
 
     def _check_events(self):
         """响应按键和鼠标事件"""
@@ -138,6 +140,9 @@ class AlienInvasion:
         # 创建一群新的外星人, 将飞船放在中间
         self._create_fleet()
         self.ship.center_ship()
+
+        # 还原游戏设置
+        self.settings.initialize_dynamic_settings()
 
         # 隐藏光标
         pygame.mouse.set_visible(False)
@@ -218,6 +223,7 @@ class AlienInvasion:
 
     def _create_alien(self, x_position, y_position):
         """创建一个外星人并放在当前行的中间"""
+
         new_alien = Alien(self)
         new_alien.x = x_position
         new_alien.rect.x = x_position
@@ -264,19 +270,20 @@ class AlienInvasion:
 
 
 if __name__ == '__main__':
-    window = EasyWarningWindows("信息",
-                                "欢迎游玩《外星人入侵》游戏, 按 q 键退出, 按空格发射子弹, 按左右方向键控制飞船移动").show_warning()
-    ask_window = EasyWarningWindows("是/否", "是否在全屏下运行游戏(全屏模式下, 只能按 q 键退出)")
+    EasyWarningWindows("信息",
+                       "欢迎游玩《外星人入侵》游戏, 按 q 键退出, 按空格发射子弹, 按左右方向键控制飞船移动").show_warning()
+    EasyWarningWindows("信息", "游戏会自动提高难度等级").show_warning()
+    ask_window = EasyWarningWindows("是/否", "是否在全屏下运行游戏 (全屏模式下, 只能按 q 键退出)")
     answer = ask_window.show_warning()
 
     if answer:
         EasyWarningWindows("信息", "在全屏模式下, 外星人碰到红线就会重新开始").show_warning()
-        EasyWarningWindows("信息", "电脑鼠标在游戏窗口下会消失, 是正常情况, 不必担心").show_warning()
+        EasyWarningWindows("信息", "小贴士: 电脑鼠标在游戏窗口下会消失, 是正常情况, 不必担心").show_warning()
         EasyWarningWindows("信息", "按下 Play 按钮或 p 键即可开始游戏").show_warning()
         ai = AlienInvasion()
     else:
         EasyWarningWindows("信息", "在非全屏模式下, 外星人碰到飞船或移出底边就会重新开始").show_warning()
-        EasyWarningWindows("信息", "电脑鼠标移动到游戏窗口下会消失, 是正常情况, 不必担心").show_warning()
+        EasyWarningWindows("信息", "小贴士: 电脑鼠标移动到游戏窗口下会消失, 是正常情况, 不必担心").show_warning()
         EasyWarningWindows("信息", "按下 Play 按钮或 p 键即可开始游戏").show_warning()
         ai = AlienInvasion(answer)
 

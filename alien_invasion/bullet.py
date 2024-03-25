@@ -7,6 +7,7 @@ class Bullet(Sprite):
 
     def __init__(self, ai_game):
         """在飞船当前位置创建一个子弹对象"""
+
         super().__init__()
         self.screen = ai_game.screen
         self.settings = ai_game.settings
@@ -30,4 +31,5 @@ class Bullet(Sprite):
 
     def draw_bullet(self):
         """在屏幕上绘制子弹"""
+        
         pygame.draw.rect(self.screen, self.color, self.rect)
