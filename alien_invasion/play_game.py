@@ -166,7 +166,13 @@ class AlienInvasion:
         for alien in self.aliens.sprites():
             if alien.rect.bottom >= self.settings.screen_height:
                 if self.options != pygame.FULLSCREEN:
-                    EasyWarningWindows("信息", "外星人碰到底边了").show_warning()
+                    ships_left = self.stats.ships_left - 1
+                    if ships_left >= 1:
+                        if ships_left == 1:
+                            ships_left = "最后一"
+                        EasyWarningWindows("信息", f"外星人碰到底边了, 你还有{ships_left}次机会").show_warning()
+                    elif ships_left <= 0:
+                        EasyWarningWindows("信息", "外星人碰到底边了, 你没有机会了, 游戏将重启").show_warning()
                 self._ship_hit()
                 break
 
@@ -214,6 +220,7 @@ class AlienInvasion:
     def _update_aliens(self):
         self._check_fleet_edges()
         self.aliens.update()
+        self._check_aliens_bottom()
 
         # 检测外星人和飞船的碰撞
         if pygame.sprite.spritecollideany(self.ship, self.aliens):
@@ -225,8 +232,6 @@ class AlienInvasion:
             elif ships_left <= 0:
                 EasyWarningWindows("信息", "外星人碰到飞船了, 你没有飞船了, 游戏将重启").show_warning()
             self._ship_hit()
-
-        self._check_aliens_bottom()
 
     def _update_screen(self):
         """更新屏幕上的图像, 并切换到新屏幕"""
@@ -252,7 +257,6 @@ class AlienInvasion:
 
 
 if __name__ == '__main__':
-
     window = EasyWarningWindows("信息",
                                 "欢迎游玩《外星人入侵》游戏, 按 q 键退出, 按空格发射子弹, 按左右方向键控制飞船移动").show_warning()
     ask_window = EasyWarningWindows("是/否", "是否在全屏下运行游戏(全屏模式下, 只能按 q 键退出)")
