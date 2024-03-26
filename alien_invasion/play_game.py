@@ -100,7 +100,12 @@ class AlienInvasion:
     def _check_bullet_alien_collisions(self):
         # 检查是否有子弹打中外星人, 如果打中了, 就删除相应的子弹和外星人
 
-        pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
+        collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
+
+        if collisions:
+            for aliens in collisions.values():
+                self.stats.score += self.settings.alien_points * len(aliens)
+            self.sb.prep_score()
 
         if not self.aliens:
             self.bullets.empty()
@@ -134,6 +139,7 @@ class AlienInvasion:
         # 重置游戏统计数据
         self.game_active = True
         self.stats.reset_stats()
+        self.sb.prep_score()
 
         # 清空余下的子弹和外星人
         self.bullets.empty()
@@ -283,12 +289,12 @@ if __name__ == '__main__':
 
     if answer:
         EasyWarningWindows("信息", "在全屏模式下, 外星人碰到红线就会重新开始").show_warning()
-        EasyWarningWindows("信息", "小贴士: 电脑鼠标在游戏窗口下会消失, 是正常情况, 不必担心").show_warning()
+        EasyWarningWindows("信息", "小贴士\n\n电脑鼠标在游戏窗口下会消失, 是正常情况, 不必担心").show_warning()
         EasyWarningWindows("信息", "按下 Play 按钮或 p 键即可开始游戏").show_warning()
         ai = AlienInvasion()
     else:
         EasyWarningWindows("信息", "在非全屏模式下, 外星人碰到飞船或移出底边就会重新开始").show_warning()
-        EasyWarningWindows("信息", "小贴士: 电脑鼠标移动到游戏窗口下会消失, 是正常情况, 不必担心").show_warning()
+        EasyWarningWindows("信息", "小贴士\n\n电脑鼠标移动到游戏窗口下会消失, 是正常情况, 不必担心").show_warning()
         EasyWarningWindows("信息", "按下 Play 按钮或 p 键即可开始游戏").show_warning()
         ai = AlienInvasion(answer)
 

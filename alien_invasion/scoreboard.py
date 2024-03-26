@@ -12,14 +12,17 @@ class Scoreboard:
         self.settings = ai_game.settings
         self.stats = ai_game.stats
 
+        self.score_image = None
+        self.score_rect = None
+
         # 显示得分信息设置
         self.text_color = (30, 30, 30)
         self.font = pygame.font.SysFont(None, 48)
 
         # 准备初始得分图像
-        self._prep_images()
+        self.prep_score()
 
-    def _prep_images(self):
+    def prep_score(self):
         """准备得分图像"""
 
         score_str = str(self.stats.score)
