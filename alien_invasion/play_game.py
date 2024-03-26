@@ -5,10 +5,11 @@ import pygame
 from LeleEasyTkinter.easy_warning_windows import EasyWarningWindows
 
 from alien import Alien
-from alien_invasion.bullet import Bullet
-from alien_invasion.settings import Settings
+from bullet import Bullet
 from button import Button
 from game_stats import GameStats
+from scoreboard import Scoreboard
+from settings import Settings
 from ship import Ship
 
 
@@ -35,6 +36,7 @@ class AlienInvasion:
         pygame.display.set_caption("外星人入侵")
 
         self.stats = GameStats(self)
+        self.sb = Scoreboard(self)
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
@@ -253,9 +255,9 @@ class AlienInvasion:
 
         # 绘制红线
         red_line_color = (255, 0, 0)
-        line_width = 5  # 设置线的粗细
-        start_pos = (0, 820)  # 设置线的起点坐标
-        end_pos = (2000, 820)  # 设置线的终点坐标
+        line_width = 5
+        start_pos = (0, 820)
+        end_pos = (2000, 820)
         pygame.draw.line(self.screen, red_line_color, start_pos, end_pos, line_width)
 
         for bullet in self.bullets.sprites():
@@ -265,6 +267,9 @@ class AlienInvasion:
 
         if not self.game_active:
             self.play_button.draw_button()
+
+        # 显示得分
+        self.sb.show_score()
 
         pygame.display.flip()
 
