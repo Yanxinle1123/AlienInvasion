@@ -30,6 +30,7 @@ class Settings:
 
         # 以什么速度加快游戏速度
         self.speedup_scale = 1.1
+        self.speedup_ship = 1.08
 
         self.initialize_dynamic_settings()
 
@@ -45,4 +46,5 @@ class Settings:
         """提高速度设置的值"""
 
         self.bullet_speed *= self.speedup_scale
+        self.ship_speed *= self.speedup_ship
         self.ids_alien_speed *= self.speedup_scale
