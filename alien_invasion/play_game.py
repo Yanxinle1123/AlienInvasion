@@ -205,7 +205,7 @@ class AlienInvasion:
 
     def _create_fleet(self):
         """创建一个外星人舰队"""
-        # 创建一个外星人, 然后不断增加, 直到没有空间添加外星人为止
+
         # 外星人的间距为外星人宽度和高度
 
         alien = Alien(self)
