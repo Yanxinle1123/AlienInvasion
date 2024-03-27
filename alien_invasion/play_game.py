@@ -118,6 +118,8 @@ class AlienInvasion:
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                pygame.display.iconify()
+                EasyWarningWindows("信息", "游戏已退出").show_warning()
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
                 self._check_keydown_events(event)
@@ -175,6 +177,8 @@ class AlienInvasion:
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = True
         elif event.key == pygame.K_q:
+            pygame.display.iconify()
+            EasyWarningWindows("信息", "游戏已退出").show_warning()
             sys.exit()
         elif event.key == pygame.K_p:
             self._start_game()
