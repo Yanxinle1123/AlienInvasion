@@ -22,6 +22,9 @@ class AlienInvasion:
         pygame.init()
         self.clock = pygame.time.Clock()
         self.options = options
+        self.space_key_down = False
+
+        self.bullet_timer = 0.0
 
         if self.options == pygame.FULLSCREEN:
             self.screen = pygame.display.set_mode(flags=self.options)
@@ -51,8 +54,8 @@ class AlienInvasion:
 
     def run_game(self):
         """开始游戏的主循环"""
-
         while True:
+            dt = self.clock.tick(60) / 1000.0  # 获取上一帧的时间
             self._check_events()
 
             if self.game_active:
@@ -60,8 +63,15 @@ class AlienInvasion:
                 self._update_bullets()
                 self._update_aliens()
 
+                # 更新bullet_timer
+                self.bullet_timer += dt
+
+                # 如果按住空格键并且距离上次发射子弹已经过去0.1秒，就发射新的子弹并重置bullet_timer
+                if self.space_key_down and self.bullet_timer >= 0.1:
+                    self._fire_bullet()
+                    self.bullet_timer = 0.0
+
             self._update_screen()
-            self.clock.tick(60)
 
     def _ship_hit(self):
         """响应飞船和外星人的碰撞"""
@@ -180,14 +190,12 @@ class AlienInvasion:
             self.ship.moving_right = True
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = True
+        elif event.key == pygame.K_SPACE:
+            self.space_key_down = True
         elif event.key == pygame.K_q:
-            pygame.display.iconify()
-            EasyWarningWindows("信息", "游戏已退出").show_warning()
             sys.exit()
         elif event.key == pygame.K_p and not self.game_active:
             self._start_game()
-        elif event.key == pygame.K_SPACE:
-            self._fire_bullet()
 
     def _check_aliens_bottom(self):
         """检查是否有外星人到达屏幕底端"""
@@ -212,6 +220,8 @@ class AlienInvasion:
             self.ship.moving_right = False
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = False
+        elif event.key == pygame.K_SPACE:
+            self.space_key_down = False
 
     def _fire_bullet(self):
         """创建一颗子弹, 并将其假如编组bullets"""
@@ -291,7 +301,7 @@ class AlienInvasion:
 
 if __name__ == '__main__':
     EasyWarningWindows("信息",
-                       "欢迎游玩《外星人入侵》游戏, 按 q 键退出, 按空格发射子弹, 按左右方向键控制飞船移动").show_warning()
+                       "欢迎游玩《外星人入侵》游戏, 按 q 键退出, 长按空格连发子弹, 按左右方向键控制飞船移动").show_warning()
     EasyWarningWindows("信息", "游戏会自动提高难度等级").show_warning()
     ask_window = EasyWarningWindows("是/否", "是否在全屏下运行游戏 (全屏模式下, 只能按 q 键退出)")
     answer = ask_window.show_warning()
