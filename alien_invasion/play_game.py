@@ -113,6 +113,10 @@ class AlienInvasion:
             self._create_fleet()
             self.settings.increase_speed()
 
+            # 添加等级
+            self.stats.level += 1
+            self.sb.prep_level()
+
     def _check_events(self):
         """响应按键和鼠标事件"""
 
@@ -180,7 +184,7 @@ class AlienInvasion:
             pygame.display.iconify()
             EasyWarningWindows("信息", "游戏已退出").show_warning()
             sys.exit()
-        elif event.key == pygame.K_p:
+        elif event.key == pygame.K_p and not self.game_active:
             self._start_game()
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()

@@ -7,7 +7,8 @@ class GameStats:
         self.ships_left = 3
         self.settings = ai_game.settings
         self.score = None
-        
+        self.level = None
+
         # 在任何情况下都不应重置最高得分
         self.high_score = 0
 
@@ -18,3 +19,4 @@ class GameStats:
 
         self.ships_left = self.settings.ship_limit
         self.score = 0
+        self.level = 1
