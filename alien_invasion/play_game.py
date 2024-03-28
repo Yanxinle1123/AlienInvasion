@@ -55,7 +55,10 @@ class AlienInvasion:
     def run_game(self):
         """开始游戏的主循环"""
         while True:
-            dt = self.clock.tick(60) / 1000.0  # 获取上一帧的时间
+
+            # 获取上一帧的时间
+            dt = self.clock.tick(60) / 1000.0
+
             self._check_events()
 
             if self.game_active:
@@ -66,8 +69,8 @@ class AlienInvasion:
                 # 更新bullet_timer
                 self.bullet_timer += dt
 
-                # 如果按住空格键并且距离上次发射子弹已经过去0.1秒，就发射新的子弹并重置bullet_timer
-                if self.space_key_down and self.bullet_timer >= 0.1:
+                # 如果按住空格键并且距离上次发射子弹已经过去0.12秒，就发射新的子弹并重置bullet_timer
+                if self.space_key_down and self.bullet_timer >= 0.12:
                     self._fire_bullet()
                     self.bullet_timer = 0.0
 
@@ -151,12 +154,13 @@ class AlienInvasion:
             self._start_game()
 
     def _start_game(self):
-        """让游戏开始的类"""
+        """让游戏开始"""
 
         # 重置游戏统计数据
         self.game_active = True
         self.stats.reset_stats()
         self.sb.prep_score()
+        self.sb.prep_level()
 
         # 清空余下的子弹和外星人
         self.bullets.empty()

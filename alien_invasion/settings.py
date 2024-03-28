@@ -18,7 +18,7 @@ class Settings:
         self.bullet_width = 3
         self.bullet_height = 15
         self.bullet_color = (233, 97, 64)
-        self.bullets_allowed = 5
+        self.bullets_allowed = None
 
         # 外星人设置
         self.ids_alien_speed = None
@@ -46,6 +46,7 @@ class Settings:
         self.bullet_speed = 10.5
         self.ids_alien_speed = self.alien_speed
         self.fleet_direction = 1
+        self.bullets_allowed = 5
 
         # 记分设置
         self.alien_points = 50
@@ -56,6 +57,7 @@ class Settings:
         self.bullet_speed *= self.speedup_scale
         self.ship_speed *= self.speedup_ship
         self.ids_alien_speed *= self.speedup_scale
+        self.bullets_allowed += 0.2
 
         # 记分设置
         self.alien_points = int(self.alien_points * self.score_scale)
