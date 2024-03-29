@@ -54,6 +54,7 @@ class AlienInvasion:
 
     def run_game(self):
         """开始游戏的主循环"""
+
         while True:
 
             # 获取上一帧的时间
@@ -137,8 +138,7 @@ class AlienInvasion:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.display.iconify()
-                EasyWarningWindows("信息", "游戏已退出").show_warning()
-                sys.exit()
+                self._quit_game()
             elif event.type == pygame.KEYDOWN:
                 self._check_keydown_events(event)
             elif event.type == pygame.KEYUP:
@@ -184,6 +184,20 @@ class AlienInvasion:
                 self._change_fleet_direction()
                 break
 
+    def _quit_game(self):
+        pygame.display.iconify()
+        save_options = EasyWarningWindows("是/否", "是否保存最高得分？").show_warning()
+        if save_options:
+            self.stats.save_high_score()
+            EasyWarningWindows("信息", "得分已保存").show_warning()
+        else:
+            clear_options = EasyWarningWindows("是/否", "是否将得分清零？").show_warning()
+            if clear_options:
+                with open("high_score.txt", 'w') as file:
+                    file.write(str(0))
+                EasyWarningWindows("信息", "得分已清零").show_warning()
+        sys.exit()
+
     def _change_fleet_direction(self):
         for alien in self.aliens.sprites():
             alien.rect.y += self.settings.fleet_drop_speed
@@ -199,8 +213,7 @@ class AlienInvasion:
         elif event.key == pygame.K_SPACE:
             self.space_key_down = True
         elif event.key == pygame.K_q:
-            self.stats.save_high_score()
-            sys.exit()
+            self._quit_game()
         elif event.key == pygame.K_p and not self.game_active:
             self._start_game()
 
