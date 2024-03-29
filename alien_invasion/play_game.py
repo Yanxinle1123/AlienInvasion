@@ -199,6 +199,7 @@ class AlienInvasion:
         elif event.key == pygame.K_SPACE:
             self.space_key_down = True
         elif event.key == pygame.K_q:
+            self.stats.save_high_score()
             sys.exit()
         elif event.key == pygame.K_p and not self.game_active:
             self._start_game()
