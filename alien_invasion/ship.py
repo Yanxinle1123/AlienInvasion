@@ -1,6 +1,8 @@
 import pygame
 from pygame.sprite import Sprite
 
+from alien_invasion.common import resource_path
+
 
 class Ship(Sprite):
     """管理飞船的类"""
@@ -15,7 +17,8 @@ class Ship(Sprite):
         self.screen_rect = ai_game.screen.get_rect()
 
         # 加载飞船图像并获取其外接矩形
-        self.image = pygame.image.load('/Users/lele/PycharmProjects/AlienInvasion/alien_invasion/images/ship.bmp')
+        ship_img = resource_path("alien_invasion/images/ship.bmp")
+        self.image = pygame.image.load(ship_img)
         self.rect = self.image.get_rect()
 
         # 每艘新飞船都放在屏幕底部的中央
