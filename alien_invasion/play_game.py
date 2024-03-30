@@ -26,6 +26,8 @@ class AlienInvasion:
 
         self.bullet_timer = 0.0
 
+        self.p_ships_left = None
+
         if self.options == pygame.FULLSCREEN:
             self.screen = pygame.display.set_mode(flags=self.options)
             self.fleet_drop_speed = 40
@@ -217,6 +219,15 @@ class AlienInvasion:
         elif event.key == pygame.K_p and not self.game_active:
             self._start_game()
 
+    def _prompt(self, ships_left):
+        self.p_ships_left = ships_left
+        if self.p_ships_left >= 1:
+            if self.p_ships_left == 1:
+                self.p_ships_left = "最后一"
+            EasyWarningWindows("信息", f"外星人碰到底边了, 你还有{self.p_ships_left}次机会").show_warning()
+        elif self.p_ships_left <= 0:
+            EasyWarningWindows("信息", "外星人碰到底边了, 你没有机会了, 游戏将重启").show_warning()
+
     def _check_aliens_bottom(self):
         """检查是否有外星人到达屏幕底端"""
 
@@ -224,12 +235,7 @@ class AlienInvasion:
             if alien.rect.bottom >= self.settings.screen_height:
                 if self.options != pygame.FULLSCREEN:
                     ships_left = self.stats.ships_left - 1
-                    if ships_left >= 1:
-                        if ships_left == 1:
-                            ships_left = "最后一"
-                        EasyWarningWindows("信息", f"外星人碰到底边了, 你还有{ships_left}次机会").show_warning()
-                    elif ships_left <= 0:
-                        EasyWarningWindows("信息", "外星人碰到底边了, 你没有机会了, 游戏将重启").show_warning()
+                    self._prompt(ships_left)
                 self._ship_hit()
                 break
 

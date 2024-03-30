@@ -20,7 +20,5 @@ H
 alien_invasion/button.py,3/a/3ad29f5dd3e67576f5b7b35e891d043f9b57dd7d
 L
 alien_invasion/scoreboard.py,1/5/1547fe8894da1faa39edebba6f71b8949485ff2d
-M
-alien_invasion/high_score.txt,f/2/f246edbb744e93da29f80e64db8c5ab7a0865589
 >
 high_score.txt,8/d/8d83299a07f1ac4fbf5f9d5f8e926d5337c4af82
