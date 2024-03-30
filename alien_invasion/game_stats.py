@@ -11,7 +11,7 @@ class GameStats:
 
         # 在任何情况下都不应重置最高得分
         try:
-            with open("high_score.txt", 'r') as file:
+            with open("/Users/lele/PycharmProjects/AlienInvasion/alien_invasion/high_score.txt", 'r') as file:
                 self.high_score = int(file.read())
         except FileNotFoundError:
             self.high_score = 0
@@ -26,5 +26,5 @@ class GameStats:
         self.level = 1
 
     def save_high_score(self):
-        with open("high_score.txt", 'w') as file:
+        with open("/Users/lele/PycharmProjects/AlienInvasion/alien_invasion/high_score.txt", 'w') as file:
             file.write(str(self.high_score))

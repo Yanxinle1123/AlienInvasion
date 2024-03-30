@@ -195,7 +195,7 @@ class AlienInvasion:
         else:
             clear_options = EasyWarningWindows("是/否", "是否将得分清零？").show_warning()
             if clear_options:
-                with open("high_score.txt", 'w') as file:
+                with open("/Users/lele/PycharmProjects/AlienInvasion/alien_invasion/high_score.txt", 'w') as file:
                     file.write(str(0))
                 EasyWarningWindows("信息", "得分已清零").show_warning()
         sys.exit()
@@ -327,20 +327,17 @@ class AlienInvasion:
 
 if __name__ == '__main__':
     EasyWarningWindows("信息",
-                       "欢迎游玩《外星人入侵》游戏, 按 q 键退出, 长按空格连发子弹, 按左右方向键控制飞船移动").show_warning()
-    EasyWarningWindows("信息", "游戏会自动提高难度等级").show_warning()
+                       "欢迎游玩《外星人入侵》游戏, 按 q 键退出, 长按空格连发子弹, 按左右方向键控制飞船移动, 按下 Play 按钮或 p 键即可开始游戏, 游戏会自动提高难度等级").show_warning()
     ask_window = EasyWarningWindows("是/否", "是否在全屏下运行游戏 (全屏模式下, 只能按 q 键退出)")
     answer = ask_window.show_warning()
 
     if answer:
-        EasyWarningWindows("信息", "在全屏模式下, 外星人碰到红线就会重新开始").show_warning()
-        EasyWarningWindows("信息", "小贴士\n\n电脑鼠标在游戏窗口下会消失, 是正常情况, 不必担心").show_warning()
-        EasyWarningWindows("信息", "按下 Play 按钮或 p 键即可开始游戏").show_warning()
+        EasyWarningWindows("信息",
+                           "小贴士\n\n在全屏模式下, 外星人碰到红线就会重新开始, 电脑鼠标在游戏窗口下会消失, 是正常情况, 不必担心").show_warning()
         ai = AlienInvasion()
     else:
-        EasyWarningWindows("信息", "在非全屏模式下, 外星人碰到飞船或移出底边就会重新开始").show_warning()
-        EasyWarningWindows("信息", "小贴士\n\n电脑鼠标移动到游戏窗口下会消失, 是正常情况, 不必担心").show_warning()
-        EasyWarningWindows("信息", "按下 Play 按钮或 p 键即可开始游戏").show_warning()
+        EasyWarningWindows("信息",
+                           "小贴士\n\n在非全屏模式下, 外星人碰到飞船或移出底边就会重新开始, 电脑鼠标移动到游戏窗口下会消失, 是正常情况, 不必担心").show_warning()
         ai = AlienInvasion(answer)
 
     ai.run_game()

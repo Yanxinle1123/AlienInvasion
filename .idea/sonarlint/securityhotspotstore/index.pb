@@ -22,3 +22,7 @@ L
 alien_invasion/scoreboard.py,1/5/1547fe8894da1faa39edebba6f71b8949485ff2d
 >
 high_score.txt,8/d/8d83299a07f1ac4fbf5f9d5f8e926d5337c4af82
+F
+alien_invasion/test.py,5/7/57400fdc7034751c01267c282e3f8e7b1dc93df3
+M
+alien_invasion/high_score.txt,f/2/f246edbb744e93da29f80e64db8c5ab7a0865589

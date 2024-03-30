@@ -46,7 +46,7 @@ class Settings:
         self.bullet_speed = 10.5
         self.ids_alien_speed = self.alien_speed
         self.fleet_direction = 1
-        self.bullets_allowed = 3
+        self.bullets_allowed = 5
 
         # 记分设置
         self.alien_points = 50

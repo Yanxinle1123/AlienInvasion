@@ -15,3 +15,9 @@ G
 alien_invasion/alien.py,e/0/e024f0408a1c19573a600862079b7298ef1be411
 F
 alien_invasion/ship.py,0/a/0ac55e7ee9f8ae9cfec45fddca732602c27cf137
+F
+alien_invasion/test.py,5/7/57400fdc7034751c01267c282e3f8e7b1dc93df3
+>
+high_score.txt,8/d/8d83299a07f1ac4fbf5f9d5f8e926d5337c4af82
+M
+alien_invasion/high_score.txt,f/2/f246edbb744e93da29f80e64db8c5ab7a0865589
