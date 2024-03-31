@@ -1,4 +1,4 @@
-from alien_invasion.common import resource_path
+from common import resource_path
 
 
 class GameStats:
@@ -13,7 +13,7 @@ class GameStats:
         self.level = None
 
         # 在任何情况下都不应重置最高得分
-        high_score_txt = resource_path("alien_invasion/high_score.txt")
+        high_score_txt = resource_path("high_score.txt")
         try:
             with open(high_score_txt, 'r') as file:
                 self.high_score = int(file.read())
@@ -30,6 +30,6 @@ class GameStats:
         self.level = 1
 
     def save_high_score(self):
-        save_high_score_txt = resource_path("alien_invasion/high_score.txt")
+        save_high_score_txt = resource_path("high_score.txt")
         with open(save_high_score_txt, 'w') as file:
             file.write(str(self.high_score))

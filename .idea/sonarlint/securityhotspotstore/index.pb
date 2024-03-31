@@ -28,3 +28,19 @@ M
 alien_invasion/high_score.txt,f/2/f246edbb744e93da29f80e64db8c5ab7a0865589
 H
 alien_invasion/common.py,0/7/079200d9848147edaa98efae8caade050f678685
+>
+play_game.spec,c/d/cd45b7e042519b09154ac94968384c9214336873
+M
+alien_invasion/play_game.spec,4/5/45b4eee0f6911a433d79e60c334321b8446312d4
+<
+play_game.py,1/c/1cb8dbe4c214dcb547d426295946c325fe2331e3
+9
+	common.py,4/e/4e56576a273cd925bb62b6fe2895c1caea9c756a
+7
+ship.py,9/3/9340ecee47a1053da9cac4dd79f619ddb8af9d1a
+8
+alien.py,9/4/94388aa0dd7455b7c7eb0cc11f8c488659f11034
+=
+game_stats.py,9/1/9113e841a69c520670bf002d74e1e805b49e6b1b
+=
+scoreboard.py,4/3/43b81c0e5ed0f94438c911097cf0209b2b6bc9ed

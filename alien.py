@@ -1,7 +1,7 @@
 import pygame
 from pygame.sprite import Sprite
 
-from alien_invasion.common import resource_path
+from common import resource_path
 
 
 class Alien(Sprite):
@@ -15,7 +15,7 @@ class Alien(Sprite):
         self.settings = ai_game.settings
 
         # 加载外星人图像并设置其rect属性
-        alien_img = resource_path("alien_invasion/images/alien.bmp")
+        alien_img = resource_path("images/alien.bmp")
         self.image = pygame.image.load(alien_img)
         self.rect = self.image.get_rect()
 

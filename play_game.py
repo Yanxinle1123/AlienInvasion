@@ -195,7 +195,7 @@ class AlienInvasion:
         else:
             clear_options = EasyWarningWindows("是/否", "是否将得分清零？").show_warning()
             if clear_options:
-                with open("/Users/lele/PycharmProjects/AlienInvasion/alien_invasion/high_score.txt", 'w') as file:
+                with open("high_score.txt", 'w') as file:
                     file.write(str(0))
                 EasyWarningWindows("信息", "得分已清零").show_warning()
         sys.exit()
