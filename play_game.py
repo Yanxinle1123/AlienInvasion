@@ -17,11 +17,12 @@ from ship import Ship
 class AlienInvasion:
     """管理游戏资源和行为的类"""
 
-    def __init__(self, options=pygame.FULLSCREEN):
+    def __init__(self, options=pygame.FULLSCREEN, clock_tick=60):
         """初始化游戏并创建游戏资源"""
 
         pygame.init()
         self.clock = pygame.time.Clock()
+        self.clock_tick = clock_tick
         self.options = options
         self.space_key_down = False
 
@@ -61,7 +62,7 @@ class AlienInvasion:
         while True:
 
             # 获取上一帧的时间
-            dt = self.clock.tick(60) / 1000.0
+            dt = self.clock.tick(self.clock_tick) / 1000.0
 
             self._check_events()
 
@@ -330,16 +331,26 @@ class AlienInvasion:
 if __name__ == '__main__':
     EasyWarningWindows("信息",
                        "欢迎游玩《外星人入侵》游戏, 按 q 键退出, 长按空格连发子弹, 按左右方向键控制飞船移动, 按下 Play 按钮或 p 键即可开始游戏, 游戏会自动提高难度等级").show_warning()
+
+    difficulty = int(EasyWarningWindows("输入框", "请选择难度等级:\n1: 低等\n2: 中等\n3: 高等").show_warning())
+    print(difficulty)
+    if difficulty == 1:
+        clock_tick = 60
+    elif difficulty == 2:
+        clock_tick = 80
+    else:
+        clock_tick = 100
+
     ask_window = EasyWarningWindows("是/否", "是否在全屏下运行游戏 (全屏模式下, 只能按 q 键退出)")
     answer = ask_window.show_warning()
 
     if answer:
         EasyWarningWindows("信息",
                            "小贴士\n\n在全屏模式下, 外星人碰到红线就会重新开始, 电脑鼠标在游戏窗口下会消失, 是正常情况, 不必担心").show_warning()
-        ai = AlienInvasion()
+        ai = AlienInvasion(clock_tick=clock_tick)
     else:
         EasyWarningWindows("信息",
                            "小贴士\n\n在非全屏模式下, 外星人碰到飞船或移出底边就会重新开始, 电脑鼠标移动到游戏窗口下会消失, 是正常情况, 不必担心").show_warning()
-        ai = AlienInvasion(answer)
+        ai = AlienInvasion(answer, clock_tick)
 
     ai.run_game()
