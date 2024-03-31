@@ -17,12 +17,12 @@ from ship import Ship
 class AlienInvasion:
     """管理游戏资源和行为的类"""
 
-    def __init__(self, options=pygame.FULLSCREEN, clock_tick=60):
+    def __init__(self, options=pygame.FULLSCREEN, clock_ticks=60):
         """初始化游戏并创建游戏资源"""
 
         pygame.init()
         self.clock = pygame.time.Clock()
-        self.clock_tick = clock_tick
+        self.clock_tick = clock_ticks
         self.options = options
         self.space_key_down = False
 
@@ -347,7 +347,7 @@ if __name__ == '__main__':
     if answer:
         EasyWarningWindows("信息",
                            "小贴士\n\n在全屏模式下, 外星人碰到红线就会重新开始, 电脑鼠标在游戏窗口下会消失, 是正常情况, 不必担心").show_warning()
-        ai = AlienInvasion(clock_tick=clock_tick)
+        ai = AlienInvasion(clock_ticks=clock_tick)
     else:
         EasyWarningWindows("信息",
                            "小贴士\n\n在非全屏模式下, 外星人碰到飞船或移出底边就会重新开始, 电脑鼠标移动到游戏窗口下会消失, 是正常情况, 不必担心").show_warning()
