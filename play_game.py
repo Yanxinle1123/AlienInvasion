@@ -7,6 +7,7 @@ from LeleEasyTkinter.easy_warning_windows import EasyWarningWindows
 from alien import Alien
 from bullet import Bullet
 from button import Button
+from common import resource_path
 from game_stats import GameStats
 from scoreboard import Scoreboard
 from settings import Settings
@@ -195,7 +196,8 @@ class AlienInvasion:
         else:
             clear_options = EasyWarningWindows("是/否", "是否将得分清零？").show_warning()
             if clear_options:
-                with open("high_score.txt", 'w') as file:
+                high_score_0 = resource_path("high_score.txt")
+                with open(high_score_0, 'w') as file:
                     file.write(str(0))
                 EasyWarningWindows("信息", "得分已清零").show_warning()
         sys.exit()
